@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Погодное приложение</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="#">Mikhruza Weather</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">Главная</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Информация</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-outline-primary ms-2" href="#">Документация</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-5">
+    <div class="row">
+
+
+        <div class="col-md-6">
+            <h3 class="mb-3 fw-bold">Погода в вашем городе</h3>
+            <form method="POST" class="mb-3">
+                {% csrf_token %}
+                {{ form.name }}
+                <button type="submit" class="btn btn-danger mt-2">Узнать</button>
+            </form>
+        </div>
+
+
+        <div class="col-md-6">
+            <h3 class="mb-3 fw-bold">Информация</h3>
+
+            {% if all_info %}
+                {% for info in all_info %}
+                    <div class="alert alert-danger mb-3" role="alert">
+                        <b>Город:</b> {{ info.city }}<br>
+                        <b>Температура:</b> {{ info.temp }}°<br>
+                        {% if info.icon %}
+                            <img src="http://openweathermap.org/img/w/{{ info.icon }}.png"
+                                 alt="Фото погоды" class="img-thumbnail mt-2">
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="alert alert-secondary" role="alert">
+                    Пока нет данных. Введите город слева, чтобы узнать погоду 🌤️
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
